@@ -115,5 +115,42 @@ namespace UserRL.Services
                 throw new Exception(exception.Message);
             }
         }
+
+        public dynamic UserList()
+        {
+            Connection();
+            // Create insatance of Stored procedure
+            SqlCommand command = new SqlCommand("spUserList", conn);
+            command.CommandType = CommandType.StoredProcedure;
+            // Calling Get data method
+            return GetData(command);
+        }
+
+        public dynamic GetData(SqlCommand command)
+        {
+            // command.CommandType = CommandType.StoredProcedure;
+            List<User> list = new List<User>();
+            //open connection EmployeeTable
+            conn.Open();
+            //data from databse return in reder
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var User = new User
+                {
+                    //get oridinal is return the name of column on the basis of case insensative
+                    //getstring retun the data in sting or particular type 
+                    UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                    UserName = reader.GetString(reader.GetOrdinal("UserName")),
+                    EmailId = reader.GetString(reader.GetOrdinal("EmailId")),
+                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                    LastName = reader.GetString(reader.GetOrdinal("LastName")),                    
+                    Address = reader.GetString(reader.GetOrdinal("Address"))
+                };
+                list.Add(User);
+            }
+            conn.Close();
+            return list;
+        }
     }
 }

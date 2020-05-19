@@ -34,6 +34,12 @@ namespace UserManagementApp.Controllers
             return Ok(new { result });
         }
 
-
+        //for get UserList
+        [HttpGet("UserList")]
+        public IActionResult UserList()
+        {
+            dynamic result = user.UserList();
+            return Ok(new { result });
+        }
     }
 }

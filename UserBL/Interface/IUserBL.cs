@@ -9,5 +9,6 @@ namespace UserBL.Interface
     {
         string Add_Data(User model);
         string UserLogin(User model);
+        dynamic UserList();
     }
 }

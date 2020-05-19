@@ -25,5 +25,10 @@ namespace UserBL.Services
         {
             return this.user.UserLogin(model);
         }
+
+        public dynamic UserList()
+        {
+            return this.user.UserList();
+        }
     }
 }
