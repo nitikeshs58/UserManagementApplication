@@ -14,6 +14,7 @@ namespace UserManagementApp.Controllers
     public class UserController : ControllerBase
     {
         public InterfaceUserBusinessLayer user;
+
         public UserController(InterfaceUserBusinessLayer user)
         {
             this.user = user;
@@ -22,9 +23,17 @@ namespace UserManagementApp.Controllers
         [HttpPost]
         public IActionResult Add_Data(User model)
         {
-
             string result = user.Add_Data(model);
             return Ok(new { result });
         }
+
+        [HttpPost("Login")]
+        public IActionResult UserLogin(User model)
+        {
+            string result = user.UserLogin(model);
+            return Ok(new { result });
+        }
+
+
     }
 }

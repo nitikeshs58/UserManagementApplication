@@ -20,5 +20,10 @@ namespace UserBL.Services
         {
             return this.user.Add_Data(model);
         }
+
+        public string UserLogin(User model)
+        {
+            return this.user.UserLogin(model);
+        }
     }
 }

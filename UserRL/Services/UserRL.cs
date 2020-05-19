@@ -64,7 +64,6 @@ namespace UserRL.Services
                 if (response <= 1)
                 {
                     return "Add Successful";
-
                 }
                 else
                 {
@@ -75,6 +74,46 @@ namespace UserRL.Services
             {
                 throw new Exception(exception.Message);
             }            
-        }     
+        }
+
+        /// <summary>
+        /// UserName and Passwars to check it is correct or not.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public string UserLogin(User data)
+        {
+            try
+            {
+                // Step 7: Connect to stored procedure and add in column
+                Connection();
+                SqlCommand command = new SqlCommand("spUserLogin", conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserName", data.UserName);
+                command.Parameters.AddWithValue("@Passward", data.Passward);
+                // Open Connection UserDatails Table
+                conn.Open();
+                // Execute command
+                SqlDataReader response = command.ExecuteReader();
+                int status = 0;
+                while(response.Read())
+                {
+                    status = response.GetInt32(0);
+                }
+                conn.Close();
+                if (status>=1)
+                {
+                    return "Login Successful";
+                }
+                else
+                {
+                    return "Login Failed";
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
     }
 }

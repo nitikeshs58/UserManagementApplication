@@ -8,5 +8,6 @@ namespace UserBL.Interface
     public interface InterfaceUserBusinessLayer
     {
         string Add_Data(User model);
+        string UserLogin(User model);
     }
 }
