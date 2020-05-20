@@ -16,19 +16,71 @@ namespace UserBL.Services
             this.user = user;
         }
 
-        public string Add_Data(User model)
+        public bool Add_Data(User model)
         {
-            return this.user.Add_Data(model);
+            try 
+            {
+                var result = user.Add_Data(model);
+                if(!result.Equals(null))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
 
-        public string UserLogin(User model)
+        public bool UserLogin(User model)
         {
-            return this.user.UserLogin(model);
+            try
+            {
+                var result = user.UserLogin(model);
+                if (!result.Equals(null))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            //return this.user.UserLogin(model);
         }
 
         public dynamic UserList()
         {
             return this.user.UserList();
+        }
+
+        public bool ForgotPassward(User model)
+        {
+            try
+            {
+                var result = user.ForgotPassward(model);
+                if (!result.Equals(null))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            // return this.user.ForgotPassward(model);
         }
     }
 }

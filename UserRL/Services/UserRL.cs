@@ -41,7 +41,7 @@ namespace UserRL.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public string Add_Data(User data)
+        public bool Add_Data(User data)
         {
             try
             {
@@ -61,13 +61,13 @@ namespace UserRL.Services
                 // Returns 1 for successful run and 0 For unsuccesful run
                 int response = command.ExecuteNonQuery();
                 conn.Close();
-                if (response <= 1)
+                if (response != 1)
                 {
-                    return "Add Successful";
+                    return true;
                 }
                 else
                 {
-                    return "Add Fail";
+                    return false;
                 }
             }
             catch(Exception exception)
@@ -81,7 +81,7 @@ namespace UserRL.Services
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public string UserLogin(User data)
+        public bool UserLogin(User data)
         {
             try
             {
@@ -94,20 +94,15 @@ namespace UserRL.Services
                 // Open Connection UserDatails Table
                 conn.Open();
                 // Execute command
-                SqlDataReader response = command.ExecuteReader();
-                int status = 0;
-                while(response.Read())
-                {
-                    status = response.GetInt32(0);
-                }
+                int response = command.ExecuteNonQuery();
                 conn.Close();
-                if (status>=1)
+                if (response!=1)
                 {
-                    return "Login Successful";
+                    return true;
                 }
                 else
                 {
-                    return "Login Failed";
+                    return false;
                 }
             }
             catch (Exception exception)
@@ -151,6 +146,42 @@ namespace UserRL.Services
             }
             conn.Close();
             return list;
+        }
+
+        /// <summary>
+        /// Sending Old Emaild and New Passward
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public bool ForgotPassward(User data)
+        {
+            try
+            {
+                Connection();
+                SqlCommand command = new SqlCommand("spForgotPassward", conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@EmailId", data.EmailId);
+                command.Parameters.AddWithValue("@Passward", data.Passward);
+                // Open Connection UserDatails Table
+                conn.Open();
+                // Returns 1 for successful run and 0 For unsuccesful run
+                int response = command.ExecuteNonQuery();
+                conn.Close();
+                if (response != 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+
         }
     }
 }
